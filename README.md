@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/zjchen82/interest-rates.svg?branch=master)](https://travis-ci.com/zjchen82/interest-rates)
+
 # Deposit Interest Rates Comparator
 
 This project is for user to compare the fixed deposit and saving deposit rates between financial companies and banks.
