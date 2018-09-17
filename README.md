@@ -2,9 +2,11 @@
 
 This project is for user to compare the fixed deposit and saving deposit rates between financial companies and banks.
 
-It uses APIs provided by Monetary Authority of Singapore (MAS) which provides monthly interest rates of banks and financial companies.
-
-[Sprint Boot](http://spring.io/projects/spring-boot) is chosen to consume the API and provide the data to front-end which is focus on presenting the data.   
+[Sprint Boot](http://spring.io/projects/spring-boot) is chosen as the backend to consume the API provided by Monetary 
+Authority of Singapore (MAS) which provides monthly interest rates of banks and financial companies. It provides the 
+data to front-end so that front-end can focus on the presentation. By separating the data and presentation layer, it 
+empowers the backend to focus on the business logic instead of mixing up with front-end logic. It also gives front-end
+more flexibility on UI & UX.   
 
 ## Getting Started
 
@@ -14,18 +16,22 @@ Clone this repo to your local machine using https://github.com/zjchen82/interest
 
 Before running the program, please make sure following are installed:
 * [Java SDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-* [Maven 3](https://maven.apache.org/)
 
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running
 
-- Go to project directory (e.g. <path_to_workspace>/interest-rates), and run the following:
+- Go to project directory (e.g. <path_to_workspace>/interest-rates), and run the following in Command Prompt (Windows) or Terminal (*nix):
 
+> Windows
 ```
-mvn install
+mvnw install
 ```
-Note that you need to use the full path to mvn if it cannot be found.
+
+> *nix
+```
+sh mvnw install
+```
 
 - Run the application
 ```

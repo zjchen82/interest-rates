@@ -23,6 +23,9 @@ public class InterestRatesController {
   public static final String RESP_KEY_DATA = "data";
   public static final String VALIDATION_ERROR_INVALID_FORMAT_START_MONTH = "Start Month is not in yyyy-MM format";
   public static final String VALIDATION_ERROR_INVALID_FORMAT_END_MONTH = "End Month is not in yyyy-MM format";
+  public static final String
+      VALIDATION_ERROR_START_MONTH_SHOULD_BE_EARLIER_THAN_END_MONTH =
+      "Start Month should be earlier than End Month";
 
   private InterestRatesService interestRatesService;
 
@@ -67,6 +70,13 @@ public class InterestRatesController {
         jsonObject.put(RESP_KEY_MESSAGE, VALIDATION_ERROR_INVALID_FORMAT_END_MONTH);
         jsonArray.add(jsonObject);
       }
+    }
+
+    // startMonth should be earlier than endMonth
+    if (startDate != null && endDate != null && startDate.after(endDate)) {
+      jsonObject = new JSONObject();
+      jsonObject.put(RESP_KEY_MESSAGE, VALIDATION_ERROR_START_MONTH_SHOULD_BE_EARLIER_THAN_END_MONTH);
+      jsonArray.add(jsonObject);
     }
 
     // return errors if any validation error

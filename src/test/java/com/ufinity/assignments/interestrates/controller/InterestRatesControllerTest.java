@@ -76,6 +76,19 @@ public class InterestRatesControllerTest {
   }
 
   @Test
+  public void getInterestRates_StartMonth_Earlier_Than_EndMonth() throws Exception {
+
+    mvc.perform(get(URL_INTEREST_RATES)
+        .param("startMonth", "2018-01")
+        .param("endMonth", "2017-01")
+        .header(X_REQUESTED_WITH, XMLHTTP_REQUEST)
+        .contentType(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.errors", hasSize(1)));
+  }
+
+  @Test
   public void getInterestRates_Processing_Fail() throws Exception {
     doThrow(ServiceException.class).when(interestRatesService).getData(any(Date.class), any(Date.class));
 

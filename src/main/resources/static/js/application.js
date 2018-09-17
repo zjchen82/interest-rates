@@ -18,13 +18,14 @@ com.ufinity.rc = {
 	  purple: 'rgb(153, 102, 255)',
 	  grey: 'rgb(201, 203, 207)'
 	},
-	
+
+	// retrieve data from backend, prompt error if any error.
 	getData: function(callback) {
     var params = {
       'startMonth': com.ufinity.rc.state.startMonth,
       'endMonth': com.ufinity.rc.state.endMonth
     };
-    console.log(params);
+    // console.log(params);
 
 	  jQuery.ajax({
 		  'url': this.url,
@@ -43,10 +44,9 @@ com.ufinity.rc = {
       return false;
 		})
 	},
-	
+
+	// plot the chart based on the data given
 	plotChart: function(records, depositType) {	  
-	  // console.log(records);
-	  
 	  records = com.ufinity.rc.records;
 	  depositType = com.ufinity.rc.state.depositType;
 	  
@@ -96,43 +96,43 @@ com.ufinity.rc = {
 	  var chartData = {
 		  labels: months,
 		  datasets: [{
-			label: 'Finacial Companies',
-			borderColor: com.ufinity.rc.chartColors.blue,
-			data: fcData,
-			fill: false,
-			backgroundColor: com.ufinity.rc.chartColors.blue
+        label: 'Finacial Companies',
+        borderColor: com.ufinity.rc.chartColors.blue,
+        data: fcData,
+        fill: false,
+        backgroundColor: com.ufinity.rc.chartColors.blue
 		  }, {
-			label: 'Finacial Companies Average',
-			borderColor: com.ufinity.rc.chartColors.blue,
-			data: fcAvgData,
-			fill: false,
-			borderDash: [5, 5],
-			backgroundColor: com.ufinity.rc.chartColors.blue
+        label: 'Finacial Companies Average',
+        borderColor: com.ufinity.rc.chartColors.blue,
+        data: fcAvgData,
+        fill: false,
+        borderDash: [5, 5],
+        backgroundColor: com.ufinity.rc.chartColors.blue
 		  }, {
-			label: 'Banks',
-			borderColor: com.ufinity.rc.chartColors.red,
-			data: banksData,
-			fill: false,
-			backgroundColor: com.ufinity.rc.chartColors.red
+        label: 'Banks',
+        borderColor: com.ufinity.rc.chartColors.red,
+        data: banksData,
+        fill: false,
+        backgroundColor: com.ufinity.rc.chartColors.red
 		  }, {
-			label: 'Banks Average',
-			borderColor: com.ufinity.rc.chartColors.red,
-			data: banksAvgData,
-			fill: false,
-			borderDash: [5, 5],
-			backgroundColor: com.ufinity.rc.chartColors.red
+        label: 'Banks Average',
+        borderColor: com.ufinity.rc.chartColors.red,
+        data: banksAvgData,
+        fill: false,
+        borderDash: [5, 5],
+        backgroundColor: com.ufinity.rc.chartColors.red
 		  }]
 		}
 		com.ufinity.rc.renderChart(chartData);
 	},
-	
+
 	renderChart: function(chartData) {
 	  if (com.ufinity.rc.myChart) {
-		// console.log('update chart with new data');
-		com.ufinity.rc.myChart.data = chartData;
-		com.ufinity.rc.myChart.update();
+		  // console.log('update chart with new data');
+		  com.ufinity.rc.myChart.data = chartData;
+		  com.ufinity.rc.myChart.update();
 		
-		return false;
+		  return false;
 	  }
 	  
 	  var ctx = document.getElementById("myChart");
@@ -152,7 +152,7 @@ com.ufinity.rc = {
 		  responsive: true,
 		  scales: {
 			yAxes: [{
-				type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+				type: 'linear',
 				display: true,
 				position: 'left'
 			}],
@@ -163,7 +163,8 @@ com.ufinity.rc = {
 		}
 	  });
 	},
-	
+
+	// format date into yyyy-MM format
   formatDate: function (date) {
     var month = date.getMonth() + 1;
     month = month > 9 ? month : '0' + month;
@@ -219,28 +220,23 @@ com.ufinity.rc.ui = {
       $('#startMonth .invalid-feedback').removeClass('d-none').addClass('d-block').html('Please supply your month');
       // alert("Please select the start month or key in in yyyy-mm format.");
       hasError = true;
-    } else {
-      var startMonth = com.ufinity.rc.formatDate(startDate);
-      if (!startMonth.match(monthFormatRex)) {
-        $('#startMonth .invalid-feedback').removeClass('d-none').addClass('d-block').html("Please supply the month in YYYY-MM format, e.g. 2018-05.");
-        hasError = true;
-      }
     }
 
     var endDate = $("#endMonth .datepicker").datepicker('getDate');
     if (!endDate) {
       $('#endMonth .invalid-feedback').removeClass('d-none').addClass('d-block').html('Please supply your month');
       hasError = true;
-    } else {
-      var endMonth = com.ufinity.rc.formatDate(endDate);
-      if (!endMonth.match(monthFormatRex)) {
-      $('#endMonth .invalid-feedback').removeClass('d-none').addClass('d-block').html("Please supply the month in YYYY-MM format, e.g. 2018-05.");
-      hasError = true;
-      }
     }
-    // console.log('start: ' + startMonth + ', end: ' + endMonth);
 
     if (hasError) {
+      return false;
+    }
+
+    var startMonth = com.ufinity.rc.formatDate(startDate);
+    var endMonth = com.ufinity.rc.formatDate(endDate);
+    // console.log('start: ' + startMonth + ', end: ' + endMonth);
+    if (startMonth !== endMonth && startDate > endDate) {
+      alert("Please change your Start Month so that it is earlier than End Month");
       return false;
     }
 
@@ -272,4 +268,3 @@ Array.prototype.sum = Array.prototype.sum || function() {
 Array.prototype.average = Array.prototype.average || function() {
   return this.sum() / (this.length || 1);
 }
-
